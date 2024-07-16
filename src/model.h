@@ -26,21 +26,37 @@ public:
     ~Tour() {}
 
     // Getters
-    std::vector<int> getCities() const { return cities; }
+    vector<int> getCities() const { return cities; }
     int getLength() const { return length; }
 
     // Setters
-    void setCities(std::vector<int> cities) { this->cities = cities; }
+    void setCities(vector<int> cities) { this->cities = cities; }
     void setLength(int length) { this->length = length; }
-    void addCity(int city, int distance) { cities.push_back(city); length += distance; }
+    void addCity(int city, int distance) { cities.push_back(city); length += distance;}
     void removeLastCity(int distance) { cities.pop_back(); length -= distance; }
-    void calculateLength(const std::vector<std::vector<int>>& matrix) {
-        length = 0;
-        for (int i = 0; i < cities.size() - 1; ++i) {
-            length += matrix[cities[i]][cities[i + 1]];
+    void calculateLength(const vector<vector<int>>& matrix) {
+        int len = 0;
+        for (int i = 0; i < this->cities.size() - 1; ++i) {
+            len += matrix[this->cities[i]][this->cities[i+1]];
         }
-        length += matrix[cities.back()][cities.front()];
+        this->setLength(len);
     }
+
+    void swapCities(int i, int j) {
+        int aux = cities[i];
+        this->cities[i] = cities[j];
+        this->cities[j] = aux;
+    }
+
+    bool isCityInTour(int city) {
+        for (int i = 0; i < cities.size(); i++) {
+            if (cities[i] == city) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Print the tour
     void printTour() const {
         for (int city : cities) {
